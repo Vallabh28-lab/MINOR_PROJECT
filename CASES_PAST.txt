@@ -1,0 +1,411 @@
+[
+  /* -------------------- CRIMINAL LAW CASES (10) -------------------- */
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Rohan Verma",
+    "year": 2018,
+    "type": "Theft",
+    "summary": "Accused was charged with stealing electronics from a retail store.",
+    "verdict": "Convicted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Anil Kumar",
+    "year": 2020,
+    "type": "Assault",
+    "summary": "Accused allegedly assaulted a neighbor during a dispute.",
+    "verdict": "Acquitted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Mehul Shah",
+    "year": 2017,
+    "type": "Fraud",
+    "summary": "Accused was charged with financial fraud in a business.",
+    "verdict": "Convicted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Priyank Sharma",
+    "year": 2021,
+    "type": "Cyber Crime",
+    "summary": "Accused hacked into a company database.",
+    "verdict": "Under Trial"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Tanmay Gupta",
+    "year": 2016,
+    "type": "Hit and Run",
+    "summary": "Accused fled the scene after injuring a pedestrian.",
+    "verdict": "Convicted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Rehan Khan",
+    "year": 2019,
+    "type": "Kidnapping",
+    "summary": "Accused was allegedly involved in kidnapping for ransom.",
+    "verdict": "Under Trial"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Karan Desai",
+    "year": 2014,
+    "type": "Drug Possession",
+    "summary": "Found with illegal narcotics during a police raid.",
+    "verdict": "Convicted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Mahesh Patil",
+    "year": 2023,
+    "type": "Arson",
+    "summary": "Accused allegedly set fire to a warehouse.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Sagar Naik",
+    "year": 2015,
+    "type": "Forgery",
+    "summary": "Accused forged documents related to land ownership.",
+    "verdict": "Acquitted"
+  },
+  {
+    "category": "Criminal Law",
+    "case_title": "State vs Vipul Jain",
+    "year": 2018,
+    "type": "Robbery",
+    "summary": "Accused robbed a jewelry store with accomplices.",
+    "verdict": "Convicted"
+  },
+
+  /* -------------------- CIVIL LAW CASES (10) -------------------- */
+  {
+    "category": "Civil Law",
+    "case_title": "Rita Agarwal vs Ram Developers",
+    "year": 2019,
+    "type": "Property Dispute",
+    "summary": "Plaintiff claimed illegal possession of her land.",
+    "verdict": "In Favor of Plaintiff"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Meera Pvt Ltd vs Ajay Iron Works",
+    "year": 2020,
+    "type": "Contract Breach",
+    "summary": "Dispute over non-delivery of ordered goods.",
+    "verdict": "Settlement"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Gaurav Singh vs City Hospital",
+    "year": 2017,
+    "type": "Medical Negligence",
+    "summary": "Plaintiff alleged wrong treatment by hospital.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Aman Gupta vs BlueSky Travels",
+    "year": 2022,
+    "type": "Consumer Complaint",
+    "summary": "Claimed refund for cancelled package tour.",
+    "verdict": "Refund Ordered"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Divya Khandelwal vs Metro Authority",
+    "year": 2016,
+    "type": "Accident Compensation",
+    "summary": "Plaintiff demanded compensation for metro accident injury.",
+    "verdict": "Partially Allowed"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "FutureTech Pvt Ltd vs Raj Traders",
+    "year": 2021,
+    "type": "Payment Dispute",
+    "summary": "Client failed to pay outstanding invoices.",
+    "verdict": "In Favor of Plaintiff"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Krishnan vs Ocean Builders",
+    "year": 2018,
+    "type": "Defective Construction",
+    "summary": "Homebuyer alleged poor quality construction.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Sunrise Apartments vs Amit Mehta",
+    "year": 2015,
+    "type": "Maintenance Dues",
+    "summary": "Defendant failed to pay building maintenance charges.",
+    "verdict": "In Favor of Plaintiff"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Isha Sharma vs Local Municipal Corp",
+    "year": 2013,
+    "type": "Public Nuisance",
+    "summary": "Negligence by corporation caused sewer overflow.",
+    "verdict": "Partly Allowed"
+  },
+  {
+    "category": "Civil Law",
+    "case_title": "Harish Chandra vs Bright Motors",
+    "year": 2022,
+    "type": "Faulty Product",
+    "summary": "Car sold with repeated engine failures.",
+    "verdict": "Replacement Ordered"
+  },
+
+  /* -------------------- FAMILY LAW CASES (10) -------------------- */
+  {
+    "category": "Family Law",
+    "case_title": "Pooja Singh vs Arjun Singh",
+    "year": 2019,
+    "type": "Divorce",
+    "summary": "Irreconcilable differences led to divorce petition.",
+    "verdict": "Granted"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Neha Patil vs Mahesh Patil",
+    "year": 2020,
+    "type": "Child Custody",
+    "summary": "Dispute regarding custody of a 7-year-old child.",
+    "verdict": "Joint Custody"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Rekha Verma vs Family Court",
+    "year": 2017,
+    "type": "Domestic Violence",
+    "summary": "Plaintiff reported cruelty by husband and in-laws.",
+    "verdict": "Protection Granted"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Rahul Sharma vs Nisha Sharma",
+    "year": 2022,
+    "type": "Alimony",
+    "summary": "Husband challenged high alimony order.",
+       "verdict": "Reduced"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Sonal Jain vs Rakesh Jain",
+    "year": 2018,
+    "type": "Adoption",
+    "summary": "Couple filed for legal adoption of orphan child.",
+    "verdict": "Approved"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Kiran vs Meera",
+    "year": 2016,
+    "type": "Property Rights",
+    "summary": "Dispute over ancestral property distribution.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Anita Lal vs Court",
+    "year": 2014,
+    "type": "Guardianship",
+    "summary": "Mother filed for legal guardianship of minor child.",
+    "verdict": "Granted"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Rajiv Mehta vs Sneha Mehta",
+    "year": 2021,
+    "type": "Marital Dispute",
+    "summary": "Both parties sought mediation for dispute resolution.",
+    "verdict": "Resolved by Mediation"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Sara Sheikh vs Imran Sheikh",
+    "year": 2015,
+    "type": "Maintenance Case",
+    "summary": "Wife demanded monthly maintenance for child.",
+    "verdict": "Granted"
+  },
+  {
+    "category": "Family Law",
+    "case_title": "Vivek Kumar vs Riya Kumar",
+    "year": 2013,
+    "type": "Annulment",
+    "summary": "Husband filed for annulment citing fraud.",
+    "verdict": "Dismissed"
+  },
+
+  /* -------------------- CORPORATE LAW CASES (10) -------------------- */
+  {
+    "category": "Corporate Law",
+    "case_title": "TechNova Pvt Ltd vs FiberNet India",
+    "year": 2021,
+    "type": "IP Infringement",
+    "summary": "Defendant copied patented technology.",
+    "verdict": "In Favor of Plaintiff"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "Magma Finance vs VSP Holdings",
+    "year": 2020,
+    "type": "Shareholder Dispute",
+    "summary": "Minority shareholders filed objection.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "SunTech Ltd vs APEX Robotics",
+    "year": 2019,
+    "type": "Breach of NDA",
+    "summary": "Employee leaked confidential designs.",
+    "verdict": "Settlement"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "NovaCorp vs BizLink",
+    "year": 2018,
+    "type": "Merger Dispute",
+    "summary": "Companies disagreed over merger valuation.",
+    "verdict": "Dismissed"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "NextGen Motors vs GreenAuto",
+    "year": 2017,
+    "type": "Trademark Violation",
+    "summary": "Logo similarity caused brand confusion.",
+    "verdict": "Injunction Issued"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "Alpha Infotech vs CyberWorld",
+    "year": 2022,
+    "type": "Data Breach Liability",
+    "summary": "Dispute over failure to protect customer data.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "BrightSoft vs QuickPay",
+    "year": 2016,
+    "type": "Non-Compete Violation",
+    "summary": "Employee allegedly joined competitor early.",
+    "verdict": "Convicted"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "Global Ventures vs UniTrade",
+    "year": 2015,
+    "type": "Supply Chain Failure",
+    "summary": "Goods were not delivered per contract.",
+    "verdict": "Compensation Ordered"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "Royal Textiles vs Metro Fabrics",
+    "year": 2014,
+    "type": "Pricing Fraud",
+    "summary": "Fake invoices used for tax benefits.",
+    "verdict": "Audit Ordered"
+  },
+  {
+    "category": "Corporate Law",
+    "case_title": "PayStar Ltd vs City Bank",
+    "year": 2023,
+    "type": "Financial Misconduct",
+    "summary": "Bank accused of freezing corporate funds illegally.",
+    "verdict": "Under Review"
+  },
+
+  /* -------------------- CONSTITUTIONAL LAW CASES (10) -------------------- */
+  {
+    "category": "Constitutional Law",
+    "case_title": "Asha Foundation vs State Govt",
+    "year": 2019,
+    "type": "Right to Education",
+    "summary": "NGO argued for improved access to schooling.",
+    "verdict": "Allowed"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Citizens Forum vs Union Govt",
+    "year": 2020,
+    "type": "Freedom of Speech",
+    "summary": "Challenged restriction placed on social media content.",
+    "verdict": "Partially Allowed"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Green Earth vs Industrial Corp",
+    "year": 2018,
+    "type": "Right to Clean Environment",
+    "summary": "Factories causing air pollution challenged.",
+    "verdict": "Strict Action Ordered"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "People's Party vs State Election Commission",
+    "year": 2021,
+    "type": "Electoral Rights",
+    "summary": "Challenged improper voter roll deletion.",
+    "verdict": "Under Scrutiny"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Shivam Pandey vs Govt",
+    "year": 2015,
+    "type": "Right to Privacy",
+    "summary": "Citizen filed against unauthorized surveillance.",
+    "verdict": "Allowed"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Women Collective vs State",
+    "year": 2022,
+    "type": "Gender Equality",
+    "summary": "Petition for equal employment opportunities.",
+    "verdict": "Approved"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Urban Welfare Society vs Metro Rail",
+    "year": 2017,
+    "type": "Right to Property",
+    "summary": "Metro development affected private properties.",
+    "verdict": "Compensation Granted"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Farmers Union vs State Govt",
+    "year": 2016,
+    "type": "Right to Protest",
+    "summary": "Police denied protest permission.",
+    "verdict": "Permission Granted"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "Digital Rights Org vs Telecom Dept",
+    "year": 2023,
+    "type": "Data Protection",
+    "summary": "Challenged mass data collection policy.",
+    "verdict": "Pending"
+  },
+  {
+    "category": "Constitutional Law",
+    "case_title": "National Students vs Education Council",
+    "year": 2014,
+    "type": "Right to Equality",
+    "summary": "Alleged discrimination in admissions.",
+    "verdict": "Partially Allowed"
+  }
+]

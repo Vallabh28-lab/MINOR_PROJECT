@@ -1,0 +1,4 @@
+node_modules/
+.vite/
+archive/
+archive.zip
