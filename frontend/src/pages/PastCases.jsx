@@ -1,8 +1,30 @@
 import React, { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card'
+import { Button } from '../components/ui/button'
+import { Input } from '../components/ui/input'
+import {
+  Search,
+  FileText,
+  Filter,
+  UploadCloud,
+  Scale,
+  History,
+  BrainCircuit,
+  CheckCircle2,
+  AlertCircle,
+  Gavel,
+  Calendar,
+  Building2,
+  ChevronRight,
+  TrendingUp,
+  X,
+  FileCheck
+} from 'lucide-react'
 
-function PastCases() {
+const PastCases = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [uploadedDoc, setUploadedDoc] = useState(null)
+  const [isSearching, setIsSearching] = useState(false)
   const [filters, setFilters] = useState({
     courtLevel: '',
     year: '',
@@ -10,10 +32,7 @@ function PastCases() {
     outcome: ''
   })
   const [searchResults, setSearchResults] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [selectedCase, setSelectedCase] = useState(null)
 
-  // Mock case data for demonstration
   const mockCases = [
     {
       id: 1,
@@ -40,396 +59,258 @@ function PastCases() {
       ipcSections: ["Consumer Protection Act 2019", "RERA 2016"],
       verdict: "₹15 lakh compensation + interest",
       reasoning: "Builder failed to deliver as per agreement terms"
-    },
-    {
-      id: 3,
-      title: "Ramesh Gupta vs. State Bank of India",
-      court: "Supreme Court of India",
-      year: "2021",
-      caseType: "Banking",
-      outcome: "Settled",
-      similarity: 65,
-      summary: "Dispute over unauthorized loan deduction and banking malpractice. Case settled out of court.",
-      ipcSections: ["Banking Regulation Act 1949", "RBI Guidelines"],
-      verdict: "Out of court settlement - ₹8 lakh",
-      reasoning: "Bank acknowledged procedural lapses"
-    },
-    {
-      id: 4,
-      title: "Suresh Patel vs. HDFC Bank Ltd.",
-      court: "Mumbai District Court",
-      year: "2023",
-      caseType: "Banking",
-      outcome: "Plaintiff Won",
-      similarity: 82,
-      summary: "Banking fraud case involving unauthorized transactions and negligence in security protocols.",
-      ipcSections: ["Banking Regulation Act 1949", "IT Act 2000", "IPC 420"],
-      verdict: "₹12 lakh compensation + legal costs",
-      reasoning: "Bank failed to implement adequate security measures"
-    },
-    {
-      id: 5,
-      title: "Meera Singh vs. Punjab National Bank",
-      court: "Delhi District Court",
-      year: "2022",
-      caseType: "Banking",
-      outcome: "Defendant Won",
-      similarity: 71,
-      summary: "Dispute over loan recovery and harassment by bank officials. Court ruled in favor of bank.",
-      ipcSections: ["SARFAESI Act 2002", "Banking Regulation Act 1949"],
-      verdict: "Bank's recovery action upheld",
-      reasoning: "Borrower defaulted on loan payments as per agreement"
-    },
-    {
-      id: 6,
-      title: "Rajesh Kumar vs. ICICI Bank",
-      court: "Pune District Court",
-      year: "2021",
-      caseType: "Banking",
-      outcome: "Settled",
-      similarity: 68,
-      summary: "Credit card fraud and unauthorized charges dispute resolved through mediation.",
-      ipcSections: ["Payment and Settlement Systems Act 2007", "RBI Guidelines"],
-      verdict: "Mutual settlement - ₹3.5 lakh refund",
-      reasoning: "Both parties agreed to amicable resolution"
     }
   ]
 
   const handleSearch = () => {
-    setLoading(true)
-    // Simulate AI search
+    setIsSearching(true)
     setTimeout(() => {
-      let results = [...mockCases] // Create a copy
-      
-      // Filter by search query
-      if (searchQuery.trim()) {
-        results = results.filter(case_ => 
-          case_.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          case_.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          case_.ipcSections.some(section => section.toLowerCase().includes(searchQuery.toLowerCase()))
-        )
-      }
-      
-      // Apply filters
-      if (filters.courtLevel && filters.courtLevel !== '') {
-        const courtMap = {
-          'supreme': 'supreme court',
-          'high': 'high court', 
-          'district': 'district court'
-        }
-        const searchTerm = courtMap[filters.courtLevel] || filters.courtLevel
-        results = results.filter(case_ => 
-          case_.court.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      }
-      
-      if (filters.year && filters.year !== '') {
-        results = results.filter(case_ => case_.year === filters.year)
-      }
-      
-      if (filters.caseType && filters.caseType !== '') {
-        results = results.filter(case_ => case_.caseType === filters.caseType)
-      }
-      
-      if (filters.outcome && filters.outcome !== '') {
-        results = results.filter(case_ => case_.outcome === filters.outcome)
-      }
-      
-      setSearchResults(results)
-      setLoading(false)
-    }, 1500)
+      setSearchResults(mockCases)
+      setIsSearching(false)
+    }, 1200)
   }
 
-  const handleDocumentUpload = (e) => {
+  const handleFileUpload = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setUploadedDoc({
-        name: file.name,
-        size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
-        type: file.type
-      })
+      setUploadedDoc({ name: file.name, size: (file.size / 1024).toFixed(1) + ' KB' })
     }
   }
 
-  const handleFilterChange = (filterName, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [filterName]: value
-    }))
-  }
-
-  const getSimilarityColor = (similarity) => {
-    if (similarity >= 80) return 'text-green-600 bg-green-50'
-    if (similarity >= 60) return 'text-yellow-600 bg-yellow-50'
-    return 'text-red-600 bg-red-50'
-  }
-
   return (
-    <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 overflow-y-auto">
-      {/* Header */}
-      <div className="shadow-lg px-8 py-8" style={{backgroundColor: '#040406'}}>
-        <div className="flex items-center">
-          <div className="p-3 rounded-xl mr-4 shadow-lg" style={{backgroundColor: '#040406'}}>
-            <span className="text-black text-3xl">🔍</span>
+    <div className="flex-1 bg-white p-8 overflow-y-auto">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-2.5 bg-black rounded-xl">
+              <History className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-4xl font-black text-gray-900 tracking-tight">Case <span className="text-blue-600">Archive</span></h1>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-white">Past Occurred Cases in India</h1>
-            <p className="text-gray-300 mt-1">AI-powered search for similar court cases and legal precedents</p>
-          </div>
-        </div>
-      </div>
-      
-      <div className="p-8">
-        {/* Search Section */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex items-center mb-6">
-            <div className="bg-blue-600 p-2 rounded-lg mr-3">
-              <span className="text-white text-xl">🔎</span>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900">Search Similar Cases</h2>
-          </div>
-          
-          {/* Search Bar */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Enter keywords or case description
-            </label>
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="e.g., property fraud, consumer dispute, banking issue..."
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                onClick={handleSearch}
-                disabled={loading}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 disabled:opacity-50"
-              >
-                {loading ? 'Searching...' : 'Search Cases'}
-              </button>
-            </div>
-          </div>
-          
-          {/* Document Upload */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Upload Document for AI Analysis (Optional)
-            </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx,.jpg,.png"
-                onChange={handleDocumentUpload}
-                className="hidden"
-                id="doc-upload"
-              />
-              <label htmlFor="doc-upload" className="cursor-pointer flex items-center justify-center">
-                <div className="text-center">
-                  <span className="text-2xl mb-2 block">📄</span>
-                  <p className="text-sm text-gray-600">
-                    Upload FIR, Agreement, Evidence (PDF, DOC, JPG, PNG)
-                  </p>
-                </div>
-              </label>
-            </div>
-            
-            {uploadedDoc && (
-              <div className="mt-3 p-3 bg-blue-50 rounded-lg flex items-center justify-between">
-                <div className="flex items-center">
-                  <span className="text-blue-600 mr-2">📄</span>
-                  <div>
-                    <p className="font-medium text-blue-900">{uploadedDoc.name}</p>
-                    <p className="text-sm text-blue-600">{uploadedDoc.size}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setUploadedDoc(null)}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  ❌
-                </button>
-              </div>
-            )}
-          </div>
-          
-          {/* Filters */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Court Level</label>
-              <select
-                value={filters.courtLevel}
-                onChange={(e) => handleFilterChange('courtLevel', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Courts</option>
-                <option value="supreme">Supreme Court</option>
-                <option value="high">High Court</option>
-                <option value="district">District Court</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Year</label>
-              <select
-                value={filters.year}
-                onChange={(e) => handleFilterChange('year', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Years</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Case Type</label>
-              <select
-                value={filters.caseType}
-                onChange={(e) => handleFilterChange('caseType', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Types</option>
-                <option value="Criminal">Criminal</option>
-                <option value="Civil">Civil</option>
-                <option value="Banking">Banking</option>
-                <option value="Consumer">Consumer</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Outcome</label>
-              <select
-                value={filters.outcome}
-                onChange={(e) => handleFilterChange('outcome', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Outcomes</option>
-                <option value="Convicted">Convicted</option>
-                <option value="Acquitted">Acquitted</option>
-                <option value="Plaintiff Won">Plaintiff Won</option>
-                <option value="Defendant Won">Defendant Won</option>
-                <option value="Settled">Settled</option>
-              </select>
-            </div>
-          </div>
+          <p className="text-gray-500 font-medium text-lg max-w-2xl">
+            AI-powered research for similar court cases, legal precedents, and historical judicial outcomes in India.
+          </p>
         </div>
 
-        {/* Search Results */}
-        {searchResults.length > 0 && (
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Search Results ({searchResults.length} cases found)
-            </h3>
-            
-            <div className="grid gap-6">
-              {searchResults.map(case_ => (
-                <div key={case_.id} className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-all duration-300">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">{case_.title}</h4>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                          {case_.court}
-                        </span>
-                        <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                          {case_.year}
-                        </span>
-                        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
-                          {case_.caseType}
-                        </span>
-                        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                          {case_.outcome}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={`px-4 py-2 rounded-lg font-bold ${getSimilarityColor(case_.similarity)}`}>
-                      {case_.similarity}% Match
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-700 mb-4">{case_.summary}</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <h5 className="font-semibold text-gray-900 mb-2">Applicable Sections:</h5>
-                      <div className="flex flex-wrap gap-1">
-                        {case_.ipcSections.map((section, idx) => (
-                          <span key={idx} className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-medium">
-                            {section}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h5 className="font-semibold text-gray-900 mb-2">Verdict:</h5>
-                      <p className="text-sm text-gray-700">{case_.verdict}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                    <div className="text-sm text-gray-600">
-                      <strong>Key Reasoning:</strong> {case_.reasoning}
-                    </div>
-                    <button
-                      onClick={() => setSelectedCase(case_)}
-                      className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition-all duration-300"
-                    >
-                      View Full Case
-                    </button>
-                  </div>
+        {/* Search & Action Panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+
+          {/* Main Search Bar */}
+          <Card className="lg:col-span-2 border-none shadow-2xl bg-gray-50 overflow-hidden ring-1 ring-gray-200">
+            <CardContent className="p-8">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Search className="w-4 h-4 text-blue-600" />
                 </div>
+                <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Semantic Search</h3>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1 relative">
+                  <Input
+                    placeholder="e.g., property fraud, consumer dispute..."
+                    className="h-14 pl-5 pr-12 text-lg bg-white border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <Button
+                  className="h-14 px-8 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-lg active:scale-95 flex items-center gap-2"
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                >
+                  {isSearching ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <BrainCircuit className="w-5 h-5" />}
+                  {isSearching ? 'Analyzing...' : 'Search Precedents'}
+                </Button>
+              </div>
+
+              {/* Filters */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-gray-200/50">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Court Level</label>
+                  <select className="w-full bg-white border border-gray-200 p-2.5 rounded-lg text-xs font-bold focus:ring-1 focus:ring-blue-500 outline-none">
+                    <option>All Courts</option>
+                    <option>Supreme Court</option>
+                    <option>High Court</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Timeline</label>
+                  <select className="w-full bg-white border border-gray-200 p-2.5 rounded-lg text-xs font-bold focus:ring-1 focus:ring-blue-500 outline-none">
+                    <option>All Years</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Case Type</label>
+                  <select className="w-full bg-white border border-gray-200 p-2.5 rounded-lg text-xs font-bold focus:ring-1 focus:ring-blue-500 outline-none">
+                    <option>All Types</option>
+                    <option>Criminal</option>
+                    <option>Civil</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Outcome</label>
+                  <select className="w-full bg-white border border-gray-200 p-2.5 rounded-lg text-xs font-bold focus:ring-1 focus:ring-blue-500 outline-none">
+                    <option>All Outcomes</option>
+                    <option>Convicted</option>
+                    <option>Acquitted</option>
+                  </select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Upload Panel */}
+          <Card className="border-none shadow-xl bg-gray-900 overflow-hidden relative group">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform">
+              <BrainCircuit className="w-32 h-32 text-white" />
+            </div>
+            <CardContent className="p-8 h-full flex flex-col justify-between relative z-10">
+              <div>
+                <h3 className="text-white text-lg font-black mb-1">AI Linker</h3>
+                <p className="text-white/50 text-xs font-medium leading-relaxed">
+                  Upload an FIR or case brief to instantly find matching legal precedents.
+                </p>
+              </div>
+
+              <div className="mt-8">
+                {uploadedDoc ? (
+                  <div className="bg-white/10 p-4 rounded-xl border border-white/10 flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-3 overflow-hidden">
+                      <FileCheck className="w-5 h-5 text-blue-400 shrink-0" />
+                      <div className="truncate">
+                        <p className="text-white text-xs font-bold truncate">{uploadedDoc.name}</p>
+                        <p className="text-[10px] text-white/40">{uploadedDoc.size}</p>
+                      </div>
+                    </div>
+                    <button onClick={() => setUploadedDoc(null)} className="text-white/40 hover:text-white"><X className="w-4 h-4" /></button>
+                  </div>
+                ) : (
+                  <label className="cursor-pointer">
+                    <input type="file" className="hidden" onChange={handleFileUpload} />
+                    <div className="border-2 border-dashed border-white/20 rounded-2xl p-8 flex flex-col items-center justify-center space-y-3 hover:bg-white/5 hover:border-white/40 transition-all">
+                      <UploadCloud className="w-8 h-8 text-white/60" />
+                      <p className="text-xs text-white/60 font-black uppercase tracking-widest text-center">Analyze Document</p>
+                    </div>
+                  </label>
+                )}
+                <p className="text-[10px] text-white/30 mt-4 text-center italic font-medium">Supports PDF, DOC, JPG, PNG</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Results Section */}
+        {searchResults.length > 0 && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <h2 className="text-2xl font-black text-gray-900 tracking-tight">Search Results <span className="text-gray-400 text-lg ml-2">{searchResults.length} Match(es)</span></h2>
+              </div>
+              <Button variant="ghost" className="text-sm font-bold text-blue-600 flex items-center gap-2 hover:bg-blue-50">
+                <TrendingUp className="w-4 h-4" /> Relevance Sorting
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+              {searchResults.map((item) => (
+                <Card key={item.id} className="border-none shadow-lg bg-white overflow-hidden hover:shadow-2xl transition-all group border-l-4 border-l-transparent hover:border-l-blue-600">
+                  <CardContent className="p-8">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+                      <div className="flex-1">
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <span className="px-3 py-1 bg-gray-100 text-gray-900 text-[10px] font-black uppercase tracking-widest rounded-full flex items-center">
+                            <Building2 className="w-3 h-3 mr-1.5 opacity-50" /> {item.court}
+                          </span>
+                          <span className="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest rounded-full flex items-center">
+                            <Scale className="w-3 h-3 mr-1.5 opacity-50" /> {item.caseType}
+                          </span>
+                          <span className="px-3 py-1 bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full flex items-center">
+                            <Calendar className="w-3 h-3 mr-1.5 opacity-50" /> {item.year}
+                          </span>
+                        </div>
+
+                        <h3 className="text-2xl font-black text-gray-900 mb-2 group-hover:text-blue-600 transition-colors uppercase tracking-tight">{item.title}</h3>
+                        <p className="text-gray-500 font-medium leading-relaxed mb-6">{item.summary}</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-gray-50">
+                          <div className="space-y-3">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Legal Provisions</p>
+                            <div className="flex flex-wrap gap-2">
+                              {item.ipcSections.map((sec, i) => (
+                                <span key={i} className="px-2 py-1 bg-red-50 text-red-600 rounded text-[9px] font-black border border-red-100">
+                                  {sec}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="space-y-3">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Judicial Outcome</p>
+                            <div className="flex items-center p-3 bg-emerald-50 rounded-xl border border-emerald-100/50">
+                              <Gavel className="w-4 h-4 text-emerald-600 mr-3 shrink-0" />
+                              <p className="text-xs font-bold text-emerald-900">{item.verdict}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0 flex flex-col items-center">
+                        <div className="relative w-28 h-28 flex items-center justify-center">
+                          <svg className="w-full h-full transform -rotate-90">
+                            <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-gray-100" />
+                            <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-blue-600" strokeDasharray={2 * Math.PI * 48} strokeDashoffset={2 * Math.PI * 48 * (1 - item.similarity / 100)} strokeLinecap="round" />
+                          </svg>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-2xl font-black text-gray-900 leading-none">{item.similarity}%</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 mt-1">Match</span>
+                          </div>
+                        </div>
+                        <Button variant="link" className="mt-4 text-xs font-black uppercase tracking-widest text-blue-600 flex items-center gap-1 group/btn">
+                          View Study <ChevronRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
         )}
 
-        {/* AI Insights Panel */}
-        {searchResults.length > 0 && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center mb-6">
-              <div className="bg-indigo-600 p-2 rounded-lg mr-3">
-                <span className="text-white text-xl">🤖</span>
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900">AI Insights & Legal Precedents</h2>
+        {/* Empty State / Instructional */}
+        {!searchResults.length && !isSearching && (
+          <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-700">
+            <div className="w-24 h-24 bg-gray-50 rounded-[40px] flex items-center justify-center mb-8 ring-8 ring-gray-50/50">
+              <Gavel className="w-10 h-10 text-gray-300" />
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-bold text-blue-900 mb-3">Key Legal Reasoning</h4>
-                <ul className="text-sm text-blue-800 space-y-2">
-                  <li>• Evidence quality is crucial for case success</li>
-                  <li>• Documentation timeline affects verdict strength</li>
-                  <li>• Similar cases show 73% success rate in this category</li>
-                  <li>• Court precedent favors detailed evidence submission</li>
-                </ul>
+            <h3 className="text-2xl font-black text-gray-900 mb-3 italic">Establish Precedence</h3>
+            <p className="text-gray-500 max-w-sm font-medium leading-relaxed mb-10">
+              Input facts or upload documents to cross-reference historical judicial decisions and outcome probabilities.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg w-full">
+              <div className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm text-left flex items-start space-x-4">
+                <div className="p-2 bg-blue-50 rounded-lg text-blue-600 shrink-0"><CheckCircle2 className="w-4 h-4" /></div>
+                <div>
+                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Authentic Data</p>
+                  <p className="text-xs font-bold text-gray-700">Indexed from High Courts & Supreme Court of India.</p>
+                </div>
               </div>
-              
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h4 className="font-bold text-green-900 mb-3">Relevant Legal Precedents</h4>
-                <ul className="text-sm text-green-800 space-y-2">
-                  <li>• Consumer Protection Act 2019 - Section 35</li>
-                  <li>• IPC Section 420 - Fraud and misrepresentation</li>
-                  <li>• RERA 2016 - Builder obligations and penalties</li>
-                  <li>• Banking Regulation Act - Customer protection</li>
-                </ul>
+              <div className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm text-left flex items-start space-x-4">
+                <div className="p-2 bg-amber-50 rounded-lg text-amber-600 shrink-0"><BrainCircuit className="w-4 h-4" /></div>
+                <div>
+                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">AI Linker</p>
+                  <p className="text-xs font-bold text-gray-700">Pattern recognition across millions of legal clauses.</p>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* No Results */}
-        {!loading && searchResults.length === 0 && searchQuery && (
-          <div className="text-center py-12">
-            <span className="text-6xl mb-4 block">🔍</span>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No matching cases found</h3>
-            <p className="text-gray-600">Try different keywords or adjust your filters</p>
-          </div>
-        )}
       </div>
     </div>
   )

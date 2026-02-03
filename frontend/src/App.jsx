@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import MainContent from './components/MainContent'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
+import Landing from './pages/Landing'
 import CaseSearch from './pages/CaseSearch'
 import DocumentAnalysis from './pages/DocumentAnalysis'
 import LawyerDirectory from './pages/LawyerDirectory'
@@ -10,6 +12,10 @@ import ConsultationOptions from './pages/ConsultationOptions'
 import Appointments from './pages/Appointments'
 import CasePrediction from './pages/CasePrediction'
 import PastCases from './pages/PastCases'
+import CaseStrategyInsights from './pages/CaseStrategyInsights'
+import SmartCrimeSearch from './pages/SmartCrimeSearch'
+import AreaRiskScore from './pages/AreaRiskScore'
+import KnowYourRights from './pages/KnowYourRights'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -41,7 +47,7 @@ function App() {
   }
 
   const renderCurrentPage = () => {
-    switch(currentPage) {
+    switch (currentPage) {
       case 'case-search':
         return <CaseSearch />
       case 'document-analysis':
@@ -56,54 +62,74 @@ function App() {
         return <CasePrediction />
       case 'past-cases':
         return <PastCases />
+      case 'strategy-insights':
+        return <CaseStrategyInsights />
+      case 'smart-crime-search':
+        return <SmartCrimeSearch />
+      case 'area-risk-score':
+        return <AreaRiskScore />
+      case 'rights-panel':
+        return <KnowYourRights />
       case 'dashboard':
       default:
         return <MainContent user={user} />
     }
   }
 
-  // Show authentication pages if not logged in
-  if (!isAuthenticated) {
-    if (showSignup) {
-      return (
-        <Signup 
-          onSignup={handleSignup}
-          onSwitchToLogin={() => setShowSignup(false)}
-        />
-      )
-    } else {
-      return (
-        <Login 
-          onLogin={handleLogin}
-          onSwitchToSignup={() => setShowSignup(true)}
-        />
-      )
-    }
-  }
-
-  // Show dashboard if authenticated
-  return (
+  const DashboardLayout = () => (
     <div className="flex h-screen bg-gray-100">
-      <Sidebar 
-        user={user} 
-        onLogout={handleLogout} 
+      <Sidebar
+        user={user}
+        onLogout={handleLogout}
         onNavigate={handleNavigation}
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
       <div className="flex-1 flex flex-col">
-        {/* Toggle Button */}
-        <div className="bg-white border-b border-gray-200 p-4">
+        <div className="topbar p-4">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="btn p-2 rounded-lg text-gray-300 hover:text-white"
           >
-            <span className="text-xl">{sidebarOpen ? '☰' : '☰'}</span>
+            <span className="text-xl">☰</span>
           </button>
         </div>
         {renderCurrentPage()}
       </div>
     </div>
+  )
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route
+          path="/login"
+          element={
+            !isAuthenticated ? (
+              showSignup ? (
+                <Signup
+                  onSignup={handleSignup}
+                  onSwitchToLogin={() => setShowSignup(false)}
+                />
+              ) : (
+                <Login
+                  onLogin={handleLogin}
+                  onSwitchToSignup={() => setShowSignup(true)}
+                />
+              )
+            ) : (
+              <Navigate to="/dashboard" replace />
+            )
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={isAuthenticated ? <DashboardLayout /> : <Navigate to="/login" replace />}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   )
 }
 

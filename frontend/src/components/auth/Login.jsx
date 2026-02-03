@@ -1,85 +1,66 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AuthMessage from './AuthMessage'
 
 function Login({ onLogin, onSwitchToSignup }) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
-  const [message, setMessage] = useState({ text: '', type: '' })
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
+  const handleLogin = async () => {
+    // Basic validation
+    if (!email || !password) {
+      alert('Please fill all fields')
+      return
+    }
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
     setIsLoading(true)
-    
-    // Validate form fields
-    if (!formData.email || !formData.password) {
-      setMessage({ text: 'Please fill in all fields', type: 'error' })
-      setIsLoading(false)
-      return
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(formData.email)) {
-      setMessage({ text: 'Please enter a valid email address', type: 'error' })
-      setIsLoading(false)
-      return
-    }
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', {
+      // Use the API URL from environment variables or default to localhost:5000/api
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
       })
-      
-      const data = await response.json()
-      
-      if (response.ok) {
-        setMessage({ text: 'Login successful! Redirecting...', type: 'success' })
-        localStorage.setItem('token', data.token)
-        setTimeout(() => {
-          onLogin(data.user)
-          setIsLoading(false)
-        }, 1000)
+
+      const data = await res.json()
+
+      if (res.ok) {
+        // Pass user data to onLogin
+        onLogin(data.user || { email })
+        navigate('/dashboard')
       } else {
-        setMessage({ text: data.message || 'Login failed', type: 'error' })
-        setIsLoading(false)
+        alert(data.message || 'Invalid email or password')
       }
     } catch (error) {
-      setMessage({ text: 'Network error. Please try again.', type: 'error' })
+      console.error('Login error:', error)
+      alert('Could not connect to the server. Please make sure the backend is running.')
+    } finally {
       setIsLoading(false)
     }
   }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (email && password) {
+      handleLogin()
+    }
   }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <AuthMessage 
-        message={message.text} 
-        type={message.type} 
-        onClose={() => setMessage({ text: '', type: '' })} 
-      />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <span className="text-6xl">⚖️</span>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-bold" style={{color: '#212529'}}>
+        <h2 className="mt-6 text-center text-3xl font-bold" style={{ color: '#212529' }}>
           LegalAI Login
         </h2>
-        <p className="mt-2 text-center text-sm" style={{color: '#6C757D'}}>
+        <p className="mt-2 text-center text-sm" style={{ color: '#6C757D' }}>
           Access your legal case management dashboard
         </p>
       </div>
@@ -97,8 +78,8 @@ function Login({ onLogin, onSwitchToSignup }) {
                   name="email"
                   type="email"
                   required
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter your email"
                 />
@@ -115,8 +96,8 @@ function Login({ onLogin, onSwitchToSignup }) {
                   name="password"
                   type="password"
                   required
-                  value={formData.password}
-                  onChange={handleChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter your password"
                 />
@@ -127,20 +108,12 @@ function Login({ onLogin, onSwitchToSignup }) {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                  isLoading 
-                    ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'
-                }`}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isLoading
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'
+                  }`}
               >
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Signing In...
-                  </div>
-                ) : (
-                  'Sign In'
-                )}
+                {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </div>
           </form>

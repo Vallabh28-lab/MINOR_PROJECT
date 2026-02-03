@@ -1,59 +1,52 @@
 import React, { useState } from 'react'
 
 function Signup({ onSignup, onSwitchToLogin }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    email: '',
-    password: '',
-    profession: ''
-  })
-
-  const professions = [
-    { value: 'lawyer', label: 'Lawyer' },
-    { value: 'practitioner', label: 'Legal Practitioner' },
-    { value: 'student', label: 'Law Student' },
-    { value: 'citizen', label: 'Citizen' }
-  ]
-
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (formData.name && formData.age && formData.email && formData.password && formData.profession) {
-      setLoading(true)
-      setError('')
-      try {
-        const response = await fetch('http://localhost:3001/api/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
-        })
-        
-        const data = await response.json()
-        
-        if (response.ok) {
-          alert('Account created successfully! Please login.')
-          onSwitchToLogin()
-        } else {
-          setError(data.message || 'Signup failed')
-        }
-      } catch (error) {
-        setError('Network error. Please try again.')
-      } finally {
-        setLoading(false)
-      }
+  const handleSignup = async () => {
+    // Basic validation
+    if (!email || !password) {
+      alert('Please fill all fields')
+      return
     }
+
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters')
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address')
+      return
+    }
+
+    setLoading(true)
+
+    const res = await fetch('http://localhost:5000/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+
+    const data = await res.json()
+
+    if (res.ok) {
+      onSwitchToLogin()
+    } else {
+      alert(data.message)
+    }
+
+    setLoading(false)
   }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (email && password) {
+      handleSignup()
+    }
   }
 
   return (
@@ -62,10 +55,10 @@ function Signup({ onSignup, onSwitchToLogin }) {
         <div className="flex justify-center">
           <span className="text-6xl">⚖️</span>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-bold" style={{color: '#212529'}}>
+        <h2 className="mt-6 text-center text-3xl font-bold" style={{ color: '#212529' }}>
           Create LegalAI Account
         </h2>
-        <p className="mt-2 text-center text-sm" style={{color: '#6C757D'}}>
+        <p className="mt-2 text-center text-sm" style={{ color: '#6C757D' }}>
           Join our legal case management platform
         </p>
       </div>
@@ -74,69 +67,8 @@ function Signup({ onSignup, onSwitchToLogin }) {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name *
-              </label>
-              <div className="mt-1">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your full name"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                Age *
-              </label>
-              <div className="mt-1">
-                <input
-                  id="age"
-                  name="age"
-                  type="number"
-                  min="18"
-                  max="100"
-                  required
-                  value={formData.age}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your age"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="profession" className="block text-sm font-medium text-gray-700">
-                Profession *
-              </label>
-              <div className="mt-1">
-                <select
-                  id="profession"
-                  name="profession"
-                  required
-                  value={formData.profession}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Select your profession</option>
-                  {professions.map((prof) => (
-                    <option key={prof.value} value={prof.value}>
-                      {prof.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address *
+                Email Address
               </label>
               <div className="mt-1">
                 <input
@@ -144,8 +76,8 @@ function Signup({ onSignup, onSwitchToLogin }) {
                   name="email"
                   type="email"
                   required
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter your email"
                 />
@@ -154,7 +86,7 @@ function Signup({ onSignup, onSwitchToLogin }) {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password *
+                Password
               </label>
               <div className="mt-1">
                 <input
@@ -162,20 +94,13 @@ function Signup({ onSignup, onSwitchToLogin }) {
                   name="password"
                   type="password"
                   required
-                  minLength="6"
-                  value={formData.password}
-                  onChange={handleChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Create a password (min 6 characters)"
+                  placeholder="Enter your password"
                 />
               </div>
             </div>
-
-            {error && (
-              <div className="text-red-600 text-sm text-center">
-                {error}
-              </div>
-            )}
 
             <div>
               <button

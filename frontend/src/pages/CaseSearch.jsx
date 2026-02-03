@@ -1,293 +1,161 @@
 import React, { useState } from 'react'
+import { Card, CardContent } from '../components/ui/card'
+import { Button } from '../components/ui/button'
+import { Search, Scale, Building, Users, FileText } from 'lucide-react'
 
 function CaseSearch() {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('criminal')
 
-  const caseTypes = [
-    {
-      category: 'Criminal Law',
-      icon: '⚖️',
-      cases: [
+  const categories = {
+    criminal: {
+      title: 'Criminal Law',
+      icon: Scale,
+      color: 'bg-red-500',
+      sections: [
         {
-          name: 'Murder Cases',
-          description: 'Cases involving unlawful killing of another person',
-          reasons: ['Personal disputes', 'Property conflicts', 'Domestic violence', 'Gang wars'],
-          precautions: ['Avoid confrontational situations', 'Report threats to police', 'Install security systems', 'Maintain peaceful relationships']
+          title: 'Violent Crimes',
+          cases: ['Murder', 'Attempted Murder', 'Culpable Homicide']
         },
         {
-          name: 'Theft & Robbery',
-          description: 'Cases involving stealing of property or money',
-          reasons: ['Economic hardship', 'Drug addiction', 'Unemployment', 'Greed'],
-          precautions: ['Secure your property', 'Use CCTV cameras', 'Avoid displaying wealth', 'Be cautious in isolated areas']
+          title: 'Property Crimes', 
+          cases: ['Theft', 'Burglary', 'Robbery', 'Dacoity']
         },
         {
-          name: 'Fraud Cases',
-          description: 'Cases involving deception for financial gain',
-          reasons: ['Online scams', 'Investment frauds', 'Identity theft', 'Credit card frauds'],
-          precautions: ['Verify before investing', 'Protect personal information', 'Use secure payment methods', 'Be wary of too-good-to-be-true offers']
+          title: 'White-Collar Crimes',
+          cases: ['Fraud', 'Money Laundering', 'Tax Evasion', 'Cybercrime']
         },
         {
-          name: 'Domestic Violence',
-          description: 'Cases involving violence within family or household',
-          reasons: ['Alcohol abuse', 'Mental health issues', 'Financial stress', 'Cultural factors'],
-          precautions: ['Seek counseling', 'Know your legal rights', 'Have emergency contacts', 'Document incidents']
+          title: 'Domestic Crimes',
+          cases: ['Domestic Violence', 'Assault', 'Harassment']
         }
       ]
     },
-    {
-      category: 'Civil Law',
-      icon: '🏛️',
-      cases: [
+    civil: {
+      title: 'Civil Law',
+      icon: Building,
+      color: 'bg-blue-500',
+      sections: [
         {
-          name: 'Property Disputes',
-          description: 'Conflicts over land, house, or property ownership',
-          reasons: ['Unclear documentation', 'Family inheritance disputes', 'Boundary issues', 'Fraudulent sales'],
-          precautions: ['Verify property documents', 'Conduct proper due diligence', 'Register property legally', 'Maintain clear records']
+          title: 'Property & Land',
+          cases: ['Boundary disputes', 'Illegal possession', 'Inheritance conflicts']
         },
         {
-          name: 'Contract Disputes',
-          description: 'Disagreements over contract terms or breach',
-          reasons: ['Unclear contract terms', 'Non-performance', 'Changed circumstances', 'Bad faith'],
-          precautions: ['Draft clear contracts', 'Include dispute resolution clauses', 'Document all communications', 'Seek legal review']
+          title: 'Contractual',
+          cases: ['Breach of contract', 'Specific performance', 'Service agreements']
         },
         {
-          name: 'Divorce Cases',
-          description: 'Legal dissolution of marriage',
-          reasons: ['Incompatibility', 'Infidelity', 'Domestic violence', 'Financial issues'],
-          precautions: ['Marriage counseling', 'Prenuptial agreements', 'Open communication', 'Financial transparency']
+          title: 'Torts',
+          cases: ['Defamation', 'Negligence (Medical or Professional)', 'Personal Injury']
         },
         {
-          name: 'Debt Recovery',
-          description: 'Cases for recovering unpaid debts',
-          reasons: ['Business failures', 'Personal financial crisis', 'Willful default', 'Economic downturns'],
-          precautions: ['Credit verification', 'Written agreements', 'Regular follow-ups', 'Legal documentation']
+          title: 'Recovery',
+          cases: ['Debt recovery', 'Check bounce cases (Section 138)', 'Insurance claims']
         }
       ]
     },
-    {
-      category: 'Corporate Law',
-      icon: '🏢',
-      cases: [
+    corporate: {
+      title: 'Corporate & Commercial Law',
+      icon: Building,
+      color: 'bg-green-500',
+      sections: [
         {
-          name: 'Company Disputes',
-          description: 'Conflicts between shareholders, directors, or companies',
-          reasons: ['Breach of fiduciary duty', 'Minority oppression', 'Corporate governance issues', 'Merger conflicts'],
-          precautions: ['Clear corporate governance', 'Regular board meetings', 'Transparent reporting', 'Compliance with regulations']
+          title: 'Intellectual Property (IP)',
+          cases: ['Patent infringement', 'Trademark violations', 'Copyright theft']
         },
         {
-          name: 'Employment Disputes',
-          description: 'Conflicts between employers and employees',
-          reasons: ['Wrongful termination', 'Wage disputes', 'Discrimination', 'Harassment'],
-          precautions: ['Clear employment contracts', 'Regular HR training', 'Document performance issues', 'Follow labor laws']
+          title: 'Employment',
+          cases: ['Wrongful termination', 'Sexual harassment at workplace (POSH)', 'Wage disputes']
         },
         {
-          name: 'Intellectual Property',
-          description: 'Cases involving patents, trademarks, copyrights',
-          reasons: ['Patent infringement', 'Trademark violations', 'Copyright theft', 'Trade secret misuse'],
-          precautions: ['Register IP rights', 'Monitor for infringement', 'Use proper licensing', 'Maintain confidentiality']
+          title: 'Compliance',
+          cases: ['GST/Tax disputes', 'Mergers & Acquisitions (M&A) conflicts', 'Insolvency/Bankruptcy']
         },
         {
-          name: 'Tax Disputes',
-          description: 'Conflicts with tax authorities',
-          reasons: ['Tax evasion', 'Incorrect filings', 'Disputes over assessments', 'GST issues'],
-          precautions: ['Maintain proper records', 'File returns on time', 'Seek professional help', 'Regular compliance audits']
+          title: 'Governance',
+          cases: ['Shareholder disputes', 'Breach of Fiduciary Duty']
         }
       ]
     },
-    {
-      category: 'Constitutional Law',
-      icon: '📜',
-      cases: [
+    constitutional: {
+      title: 'Constitutional & Public Law',
+      icon: Users,
+      color: 'bg-purple-500',
+      sections: [
         {
-          name: 'Fundamental Rights',
-          description: 'Cases involving violation of constitutional rights',
-          reasons: ['Government overreach', 'Discrimination', 'Freedom of speech issues', 'Privacy violations'],
-          precautions: ['Know your rights', 'Document violations', 'Seek legal counsel', 'Use proper legal channels']
+          title: 'Writ Wizard',
+          cases: ['3-step diagnostic tool for legal remedies (Habeas Corpus, Mandamus, etc.)']
         },
         {
-          name: 'Public Interest Litigation',
-          description: 'Cases filed for public welfare',
-          reasons: ['Environmental issues', 'Corruption', 'Public safety', 'Social justice'],
-          precautions: ['Gather evidence', 'Build public support', 'Follow proper procedures', 'Engage with media responsibly']
+          title: 'Article Popovers',
+          cases: ['Instant hover-to-read cards with Constitutional Articles text']
         },
         {
-          name: 'Writ Petitions',
-          description: 'Direct petitions to High Court or Supreme Court',
-          reasons: ['Administrative failures', 'Illegal detention', 'Procedural violations', 'Rights enforcement'],
-          precautions: ['Exhaust other remedies first', 'Prepare strong case', 'Engage experienced counsel', 'Follow court procedures']
-        }
-      ]
-    },
-    {
-      category: 'Family Law',
-      icon: '👨‍👩‍👧‍👦',
-      cases: [
-        {
-          name: 'Child Custody',
-          description: 'Disputes over child care and custody',
-          reasons: ['Divorce proceedings', 'Parental disputes', 'Child welfare concerns', 'Relocation issues'],
-          precautions: ['Prioritize child welfare', 'Maintain good relationship with ex-spouse', 'Document parenting', 'Seek mediation']
+          title: 'Bench Analytics',
+          cases: ['Visual Split View of landmark judgments with Majority vs. Dissenting opinions']
         },
         {
-          name: 'Adoption Cases',
-          description: 'Legal procedures for child adoption',
-          reasons: ['Infertility', 'Single parent adoption', 'Step-parent adoption', 'Relative adoption'],
-          precautions: ['Follow legal procedures', 'Complete background checks', 'Prepare financially', 'Understand responsibilities']
-        },
-        {
-          name: 'Maintenance Cases',
-          description: 'Cases for spousal or child support',
-          reasons: ['Divorce settlements', 'Separation agreements', 'Child support needs', 'Elderly parent care'],
-          precautions: ['Document income accurately', 'Negotiate fairly', 'Consider future needs', 'Maintain payment records']
+          title: 'Compliance Tracker',
+          cases: ['Status-based timeline for PIL cases with Ordered/Pending/Complied badges']
         }
       ]
     }
-  ]
-
-  const filteredCases = selectedCategory === 'all' 
-    ? caseTypes.flatMap(category => category.cases.map(case_ => ({...case_, category: category.category, icon: category.icon})))
-    : caseTypes.find(cat => cat.category === selectedCategory)?.cases.map(case_ => ({
-        ...case_, 
-        category: selectedCategory, 
-        icon: caseTypes.find(cat => cat.category === selectedCategory)?.icon
-      })) || []
-
-  const searchFilteredCases = filteredCases.filter(case_ =>
-    case_.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    case_.description.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  }
 
   return (
-    <div className="flex-1 bg-gray-50 overflow-y-auto">
+    <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 overflow-y-auto">
       {/* Header */}
-      <div className="shadow-sm border-b border-gray-200 px-8 py-6" style={{backgroundColor: '#040406'}}>
-        <div className="flex items-center mb-2">
-          <span className="text-4xl mr-4">🔍</span>
-          <h1 className="text-3xl font-bold text-white">Case Search & Legal Information</h1>
+      <div className="shadow-lg px-8 py-8" style={{backgroundColor: '#040406'}}>
+        <div className="flex items-center">
+          <div className="bg-white p-3 rounded-xl mr-4 shadow-lg">
+            <Search className="w-8 h-8 text-gray-900" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">Case Search</h1>
+            <p className="text-slate-400 mt-1 font-medium">Search and explore legal cases by category</p>
+          </div>
         </div>
-        <p className="text-lg text-gray-300">Explore different types of legal cases in India, their causes, and prevention measures</p>
       </div>
 
       <div className="p-8">
-        {/* Search and Filter Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Search case types, descriptions..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="all">All Categories</option>
-              {caseTypes.map(category => (
-                <option key={category.category} value={category.category}>
-                  {category.category}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Category Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {caseTypes.map(category => (
-              <button
-                key={category.category}
-                onClick={() => setSelectedCategory(category.category)}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  selectedCategory === category.category
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
+        {/* Category Tabs */}
+        <div className="flex space-x-2 mb-8 overflow-x-auto">
+          {Object.entries(categories).map(([key, category]) => {
+            const Icon = category.icon
+            return (
+              <Button
+                key={key}
+                variant={selectedCategory === key ? "default" : "outline"}
+                onClick={() => setSelectedCategory(key)}
+                className="flex items-center space-x-2 whitespace-nowrap"
               >
-                <div className="text-2xl mb-2">{category.icon}</div>
-                <div className="text-sm font-medium text-gray-900">{category.category}</div>
-                <div className="text-xs text-gray-500">{category.cases.length} types</div>
-              </button>
-            ))}
-          </div>
+                <Icon className="w-4 h-4" />
+                <span>{category.title}</span>
+              </Button>
+            )
+          })}
         </div>
 
-        {/* Cases Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {searchFilteredCases.map((case_, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">{case_.icon}</span>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{case_.name}</h3>
-                      <p className="text-sm text-gray-600">{case_.category}</p>
-                    </div>
+        {/* Selected Category Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {categories[selectedCategory].sections.map((section, index) => (
+            <Card key={index} className="border-slate-200 shadow-sm">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className={`w-10 h-10 ${categories[selectedCategory].color} rounded-lg flex items-center justify-center mr-3`}>
+                    <FileText className="w-5 h-5 text-white" />
                   </div>
+                  <h3 className="text-lg font-semibold text-gray-900 tracking-tight">{section.title}</h3>
                 </div>
-                
-                <p className="text-gray-700 mb-4">{case_.description}</p>
-
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Common Reasons:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {case_.reasons.map((reason, idx) => (
-                        <span key={idx} className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
-                          {reason}
-                        </span>
-                      ))}
+                <div className="space-y-2">
+                  {section.cases.map((caseType, caseIndex) => (
+                    <div key={caseIndex} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                      <p className="text-sm font-medium text-gray-900">{caseType}</p>
                     </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Prevention Measures:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {case_.precautions.map((precaution, idx) => (
-                        <span key={idx} className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                          {precaution}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                    Learn More →
-                  </button>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
-        </div>
-
-        {searchFilteredCases.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No cases found</h3>
-            <p className="text-gray-600">Try adjusting your search terms or category filter</p>
-          </div>
-        )}
-
-        {/* Legal Disclaimer */}
-        <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <div className="flex items-start">
-            <span className="text-yellow-600 text-xl mr-3">⚠️</span>
-            <div>
-              <h4 className="font-medium text-yellow-800 mb-2">Legal Disclaimer</h4>
-              <p className="text-sm text-yellow-700">
-                This information is for educational purposes only and should not be considered as legal advice. 
-                Always consult with a qualified legal professional for specific legal matters. Laws may vary by 
-                jurisdiction and are subject to change.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

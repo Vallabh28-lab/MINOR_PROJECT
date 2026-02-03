@@ -2,3 +2,6 @@ node_modules/
 .vite/
 archive/
 archive.zip
+.env
+backend/.env
+frontend/.env

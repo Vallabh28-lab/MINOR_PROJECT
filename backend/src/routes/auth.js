@@ -1,86 +1,100 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
+
 const router = express.Router();
 
-// @route   POST /api/auth/login
-// @desc    Login user
-// @access  Public
-router.post('/login', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     const { email, password } = req.body;
-    
-    // Check if user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Invalid input' });
     }
-    
-    // Check password
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({
+        message: 'Account already exists'
+      });
     }
-    
-    // Create JWT token
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRE }
-    );
-    
-    res.json({
-      message: 'Login successful',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        profession: user.profession,
-        age: user.age
-      }
+
+    // The User model has a pre-save hook that hashes the password.
+    // Double hashing causes login failures, so we pass the plain password here.
+    await User.create({
+      email,
+      password
     });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+
+    res.status(201).json({ message: 'Signup successful' });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// @route   POST /api/auth/signup
-// @desc    Register user
-// @access  Public
-router.post('/signup', async (req, res) => {
+router.post('/fast-login', (req, res) => {
+  console.log('Fast login called');
+  res.json({ message: 'Fast login works' });
+});
+
+router.get('/ping', (req, res) => {
+  const start = Date.now();
+  res.json({
+    message: 'Server is running',
+    time: Date.now() - start + 'ms'
+  });
+});
+
+router.post('/test-login', async (req, res) => {
   try {
-    const { name, email, password, profession, age } = req.body;
-    
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+    const start = Date.now();
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).lean();
+    console.log('DB query time:', Date.now() - start, 'ms');
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
     }
-    
-    // Create new user
-    const user = new User({
-      name,
-      email,
-      password,
-      profession,
-      age
-    });
-    
-    await user.save();
-    
-    res.status(201).json({
-      message: 'User created successfully',
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        profession: user.profession,
-        age: user.age
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+
+    // Skip bcrypt - just check plain text (TEMPORARY TEST ONLY)
+    if (password === 'test123') {
+      console.log('Total time:', Date.now() - start, 'ms');
+      return res.status(200).json({ message: 'Test login successful' });
+    }
+
+    res.status(401).json({ message: 'Wrong password' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const start = Date.now();
+    const { email, password } = req.body;
+
+    console.log('Login start:', Date.now() - start, 'ms');
+    const user = await User.findOne({ email }).lean();
+    console.log('DB query:', Date.now() - start, 'ms');
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Bcrypt compare:', Date.now() - start, 'ms');
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    console.log('Total login time:', Date.now() - start, 'ms');
+    res.status(200).json({ message: 'Login successful' });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
