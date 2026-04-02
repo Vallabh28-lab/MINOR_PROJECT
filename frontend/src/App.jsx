@@ -70,9 +70,8 @@ function App() {
         return <AreaRiskScore />
       case 'rights-panel':
         return <KnowYourRights />
-      case 'dashboard':
       default:
-        return <MainContent user={user} />
+        return <MainContent user={user} onNavigate={handleNavigation} />
     }
   }
 

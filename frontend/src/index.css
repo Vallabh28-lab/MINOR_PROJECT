@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Georgia&family=Roboto:wght@400;500;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -29,7 +29,19 @@
 }
 
 :root {
-  /* Professional Legal Color Palette */
+  /* Landing Page Design System - Black & White Theme */
+  --legal-black: #020202;
+  --legal-dark: #0a0a0a;
+  --legal-gray-dark: #121212;
+  --legal-gray: #333333;
+  --legal-gray-light: #666666;
+  --legal-white: #FFFFFF;
+  --legal-gold: #FFFFFF;
+  /* Gold is now White in High-Contrast B&W */
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Existing Professional Legal Color Palette */
   --background: oklch(0.995 0.005 240);
   --foreground: oklch(0.12 0.015 240);
   --card: oklch(1 0 0);
@@ -193,12 +205,159 @@
 
   /* Typography hierarchy */
   .hero-heading {
-    letter-spacing: -0.5px;
+    font-family: 'Georgia', serif;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   .hero-subtext {
-    opacity: 0.8;
-    line-height: 1.7;
+    font-family: 'Inter', sans-serif;
+    opacity: 0.7;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  /* Glassmorphism Classes */
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Premium High-Contrast Button */
+  .btn-gold {
+    background: var(--legal-white);
+    color: var(--legal-black);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-gold:hover {
+    background: #f0f0f0;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-gold:active {
+    transform: translateY(-2px) scale(1);
+  }
+
+  /* Landing Page Specific Styles */
+  .landing-bg {
+    background: radial-gradient(circle at center, #0f0f0f, #020202);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .landing-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 10;
+  }
+
+  .hero-title {
+    font-family: 'Georgia', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 600;
+    color: var(--legal-white);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    line-height: 1.4;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-gold {
+    background: transparent;
+    border: 2px solid var(--legal-gold);
+    color: var(--legal-gold);
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-gold:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    color: white;
+    border-color: white;
+  }
+
+  .backdrop-blur-custom {
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.85);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .legal-icon-bg {
+    position: absolute;
+    opacity: 0.05;
+    color: white;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .footer-minimal {
+    position: absolute;
+    bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    z-index: 10;
+  }
+
+  .ai-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   /* Slow background motion */
@@ -340,5 +499,40 @@
   /* Remove slow background motion */
   .slow-gradient {
     display: none;
+  }
+
+  /* Premium Legal Advisory Network Styles */
+  .premium-popup .leaflet-popup-content-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 2px;
+  }
+
+  .premium-popup .leaflet-popup-tip {
+    background: white;
+  }
+
+  .premium-popup .leaflet-popup-content {
+    margin: 12px 15px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
   }
 }

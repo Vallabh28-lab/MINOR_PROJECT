@@ -19,7 +19,8 @@ import {
   Gavel,
   History,
   X,
-  Plus
+  Plus,
+  ChevronRight
 } from 'lucide-react'
 
 const CasePrediction = () => {

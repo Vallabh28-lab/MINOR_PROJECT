@@ -4,6 +4,7 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const hearingRoutes = require('./src/routes/hearingRoutes');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -23,6 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/hearings', hearingRoutes);
+app.use('/api/upload', require('./src/routes/uploadRoutes'));
+const lawyerRoutes = require('./src/routes/lawyerRoutes');
+app.use('/api/lawyers', lawyerRoutes);
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import Sparkline from './ui/sparkline'
 import { Plus, Calendar, BarChart3, Search } from 'lucide-react'
 
-function MainContent() {
+function MainContent({ user, onNavigate }) {
   const stats = [
     { title: 'Active Cases', value: '0', change: '0%', color: 'bg-blue-500', sparklineData: [12, 19, 15, 27, 22, 18, 24], sparklineColor: '#3b82f6' },
     { title: 'Total Clients', value: '0', change: '0%', color: 'bg-green-500', sparklineData: [8, 12, 16, 14, 18, 22, 20], sparklineColor: '#10b981' },
@@ -177,7 +177,6 @@ function MainContent() {
             </div>
           </div>
 
-          {/* Quick Actions */}
           <Card className="border-slate-200 shadow-sm">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 tracking-tight mb-6">Quick Actions</h3>
@@ -190,7 +189,12 @@ function MainContent() {
                   </div>
                 </Button>
 
-                <Button variant="outline" className="w-full justify-start h-12 text-left" size="lg">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-12 text-left"
+                  size="lg"
+                  onClick={() => onNavigate('appointments')}
+                >
                   <Calendar className="w-5 h-5" />
                   <div className="flex-1 text-left">
                     <div className="font-medium">Schedule</div>
@@ -198,7 +202,12 @@ function MainContent() {
                   </div>
                 </Button>
 
-                <Button variant="outline" className="w-full justify-start h-12 text-left" size="lg">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-12 text-left"
+                  size="lg"
+                  onClick={() => onNavigate('case-prediction')}
+                >
                   <BarChart3 className="w-5 h-5" />
                   <div className="flex-1 text-left">
                     <div className="font-medium">Analytics</div>
@@ -206,7 +215,12 @@ function MainContent() {
                   </div>
                 </Button>
 
-                <Button variant="outline" className="w-full justify-start h-12 text-left" size="lg">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-12 text-left"
+                  size="lg"
+                  onClick={() => onNavigate('case-search')}
+                >
                   <Search className="w-5 h-5" />
                   <div className="flex-1 text-left">
                     <div className="font-medium">Search</div>
