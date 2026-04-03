@@ -1,23 +1,5 @@
-const bcrypt = require('bcryptjs'); // or 'bcrypt'
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-
-const registerUser = async (req, res) => {
-    const { email, password } = req.body;
-
-    // 1. Generate a salt (10-12 rounds is standard)
-    const salt = await bcrypt.genSalt(10);
-    
-    // 2. Hash the password
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // 3. Save to DB with the HASHED password
-    const user = await User.create({
-        email,
-        password: hashedPassword // Save the scrambled version!
-    });
-    
-    res.status(201).json({ message: "User created!" });
-};
 
 const login = async (req, res) => {
     try {
@@ -61,4 +43,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, login };
+module.exports = { login, registerUser: require('./authController').registerUser };
